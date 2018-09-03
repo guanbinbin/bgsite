@@ -9,4 +9,6 @@ func init() {
     beego.Router("/", &controllers.MainController{})
 }
 
-azazaz
+asd
+asdasd
+asdasd
