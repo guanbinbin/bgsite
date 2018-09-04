@@ -1,5 +1,3 @@
 # bgsite
 
 Leaarning beego
-
-dsfdsfdsfdsfdsfsdf
