@@ -58,13 +58,12 @@ func (c *MainController) Calc() {
 func (c *MainController) Hello(){
 	c.Data["name"] = c.GetString("name")
 	c.Data["old"] = c.GetString("old")
-	c.TplName = "bgsite.tpl"
+	c.TplName = "hello.tpl"
 }
 
+//фиксани стирание GetString при переходе на другую страницу и обратно
 func (c* MainController) Session () {
-	c.SetSecureCookie("test", "test1", "blyatsuka")
-	_ , cookie := c.GetSecureCookie("test","21")
-	c.Data["num"] = cookie
+		c.SetSession("test", c.GetString("name"))
+		c.Data["ck"] = c.GetSession("test")
 	c.TplName = "session.tpl"
-
 }

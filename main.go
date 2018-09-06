@@ -6,7 +6,10 @@ import (
 )
 
 func main() {
-	beego.Run()
 	beego.BConfig.WebConfig.Session.SessionOn = true
+	beego.BConfig.WebConfig.Session.SessionName = "myname"
+	beego.BConfig.WebConfig.Session.SessionProvider = "file"
+	beego.BConfig.WebConfig.Session.SessionProviderConfig = "./cookies"
+	beego.Run()
 }
 

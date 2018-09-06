@@ -30,9 +30,19 @@
 <!---------------------------------------->
 
 <div class="container" >
-            <div class="row">
-                {{.num}}
+    <form action="/session" method="POST" >
+        <div class="row">
+            <div class="col s3">
+                <input id = "name" type="text" name="name" />  <label for="name"> Твое имя </label>
             </div>
+        </div>
+        <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+            <i class="material-icons right">send</i>
+        </button>
+    </form>
+    <br />
+    <br />
+    {{.ck}}
 </div>
 
 
