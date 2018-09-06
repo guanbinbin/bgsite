@@ -1,3 +1,0 @@
-# bgsite
-
-Leaarning beego
