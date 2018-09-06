@@ -1,2 +1,6 @@
 # IntellijIdea files
 .idea/
+
+# Ignore:
+.cookies/
+*.exe
