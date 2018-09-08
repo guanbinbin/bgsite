@@ -4,3 +4,4 @@
 # Ignore:
 .cookies/
 *.exe
+*.exe~
