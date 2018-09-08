@@ -28,7 +28,7 @@
 </nav>
 <br /> <br /> <br />
 <!---------------------------------------->
-
+Вы авторизованы как {{.name}}
 
 <!--JavaScript at end of body for optimized loading-->
 <script type="text/javascript" src="static/js/materialize.js"></script>
