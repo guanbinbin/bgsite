@@ -30,23 +30,8 @@
 <!---------------------------------------->
 
 <div class="container" >
-    <form action="/register" method="POST" >
-        <div class="row">
-            <div class="col s3">
-                <input id = "name" type="text" name="name" />  <label for="name"> Логин </label>
-            </div>
-            <div class="col s3">
-                <input id = "pass" type="password" name="pass" />  <label for="pass"> Пароль </label>
-            </div>
-        </div>
-        <button class="btn waves-effect waves-light" type="submit" name="action">Логин
-            <i class="material-icons right">send</i>
-        </button>
-        <br /> <br />
-        <button class="btn waves-effect waves-light" type="submit" name="action">Регистрация
-            <i class="material-icons right">send</i>
-        </button>
-    </form>
+
+{{.key}} , {{.sessid}}
 </div>
 
 

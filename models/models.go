@@ -6,7 +6,6 @@ import (
 
 type User struct {
 	Id int
-	UserId string
 	Name string
 	Pass string
 	Hash string

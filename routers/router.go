@@ -12,5 +12,6 @@ func init() {
 	beego.Router("/answer", &controllers.MainController{}, "get,post:Answer")
 	beego.Router("/calc", &controllers.MainController{}, "get,post:Calc")
 	beego.Router("/session", &controllers.LoginController{}, "get,post:Session")
-	beego.Router("/register", &controllers.LoginController{}, "post:Register")
+	beego.Router("/register", &controllers.LoginController{}, "get,post:Register")
+	beego.Router("/login", &controllers.LoginController{}, "get,post:Login")
 }

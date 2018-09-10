@@ -28,13 +28,9 @@
 </nav>
 <br /> <br /> <br />
 <!---------------------------------------->
-
-
     <div class="container">
         <div class="row">
-            {{.key}} , {{.sessid}}
-            <br /> <br />
-            {{.name}} , {{.pass}}
+            {{.err}} {{.name}} {{.bd}}
         </div>
     </div>
 
