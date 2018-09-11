@@ -18,7 +18,7 @@ func main() {
 
 	//Autocreate tables
 	name := "default"
-	force := true	 // Drop table and re-create.
+	force := false	 // Drop table and re-create.
 	verbose := false // Print log.
 	err := orm.RunSyncdb(name, force, verbose)
 	if err != nil {

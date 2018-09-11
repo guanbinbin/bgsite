@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"bgsite/models"
+	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 )
@@ -11,6 +12,14 @@ type LoginController struct {
 }
 
 func (c* LoginController) Session () {
+	//Button "Login"
+	if c.Ctx.Request.FormValue("submit") == "login" {
+		c.Redirect("/login",307) //307 - using POST
+	}
+	//Button "Register"
+	if c.Ctx.Request.FormValue("submit") == "register"{
+		c.Redirect("/register",307)
+	}
 
 	c.TplName = "session.tpl"
 }
@@ -37,19 +46,23 @@ func (c* LoginController) Register () {
 		c.Data["err"] = "Добро пожаловать, "
 		c.Data["name"] = name
 	}
-	u := o.QueryTable("user")
-	c.Data["bd"] = u
-	// c.Redirect("/login", 302)
+
 	c.TplName = "register.tpl"
 }
 
 func (c* LoginController) Login () {
-	sess := c.StartSession()
-	sess.Set("test","123")
+	c.SetSession("auth", "id")
+	c.GetSession("auth")
 
-	c.Data["key"] = sess.Get("test")
-	c.Data["sessid"] = sess.SessionID()
+	//TODO: repeating code!
+	o := orm.NewOrm()
+	o.Using("default")
 
+	//Read from db
+	user:= &models.User{Name:"12"}
+	err := o.Read(user, "name")
+	fmt.Println(err, user.Id, user.Pass)
+
+	//c.SetSecureCookie("namesd", "asd","aaaaaaaaaa")
 	c.TplName = "login.tpl"
-
 }

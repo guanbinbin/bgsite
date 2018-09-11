@@ -30,7 +30,7 @@
 <!---------------------------------------->
 
 <div class="container" >
-    <form action="/register" method="POST" >
+    <form action="" method="POST" >
         <div class="row">
             <div class="col s3">
                 <input id = "name" type="text" name="name" />  <label for="name"> Логин </label>
@@ -39,16 +39,15 @@
                 <input id = "pass" type="password" name="pass" />  <label for="pass"> Пароль </label>
             </div>
         </div>
-        <button class="btn waves-effect waves-light" type="submit" name="action">Логин
+        <button name="submit" value="login" class="btn waves-effect waves-light" type="submit">Логин
             <i class="material-icons right">send</i>
         </button>
         <br /> <br />
-        <button class="btn waves-effect waves-light" type="submit" name="action">Регистрация
+        <button name="submit" value="register" class="btn waves-effect waves-light" type="submit" >Регистрация
             <i class="material-icons right">send</i>
         </button>
     </form>
 </div>
-
 
 <!--JavaScript at end of body for optimized loading-->
 <script type="text/javascript" src="static/js/materialize.js"></script>
