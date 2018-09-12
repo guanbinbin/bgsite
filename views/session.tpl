@@ -29,25 +29,31 @@
 <br /> <br /> <br />
 <!---------------------------------------->
 
-<div class="container" >
-    <form action="" method="POST" >
-        <div class="row">
-            <div class="col s3">
-                <input id = "name" type="text" name="name" />  <label for="name"> Логин </label>
+<div class="container">
+    <div class="row">
+        <form action="" method="POST">
+            <div class="col s5">
+                <div class="input-field">
+                    <input id = "name" type="text" name="name" class="materialize-textarea">
+                    <label for="name">Логин</label>
+                        <div class="input-field">
+                            <input id = "pass" type="password" name="pass" class="materialize-textarea">
+                            <label for="pass">Пароль</label>
+                        </div>
+                </div>
+            </div> <br/>
+            <div class="col s12">
+                <button name="submit" value="login" class="btn-small waves-effect waves-light" type="submit">Войти
+                    <i class="material-icons right">assignment_turned_in</i>
+                </button> &nbsp;&nbsp;
+                <button name="submit" value="register" class="btn-small waves-effect waves-light" type="submit" >Регистрация
+                    <i class="material-icons right">assignment_ind</i>
+                </button>
             </div>
-            <div class="col s3">
-                <input id = "pass" type="password" name="pass" />  <label for="pass"> Пароль </label>
-            </div>
-        </div>
-        <button name="submit" value="login" class="btn waves-effect waves-light" type="submit">Логин
-            <i class="material-icons right">send</i>
-        </button>
-        <br /> <br />
-        <button name="submit" value="register" class="btn waves-effect waves-light" type="submit" >Регистрация
-            <i class="material-icons right">send</i>
-        </button>
-    </form>
+        </form>
+    </div>
 </div>
+
 
 <!--JavaScript at end of body for optimized loading-->
 <script type="text/javascript" src="static/js/materialize.js"></script>

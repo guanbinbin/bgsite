@@ -14,8 +14,6 @@ func init() {
 }
 
 func main() {
-	//orm.ResetModelCache()
-
 	//Autocreate tables
 	name := "default"
 	force := false	 // Drop table and re-create.
@@ -27,7 +25,6 @@ func main() {
 
 	//Session
 	beego.BConfig.WebConfig.Session.SessionOn = true
-	beego.BConfig.WebConfig.Session.SessionName = "myname"
 
 	beego.Run()
 }

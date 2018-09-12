@@ -8,7 +8,6 @@ type User struct {
 	Id int
 	Name string
 	Pass string
-	Hash string
 }
 
 func init() {

@@ -30,7 +30,7 @@
 <!---------------------------------------->
     <div class="container">
         <div class="row">
-            {{.err}} {{.name}} <br /> <br /> {{.bd}}
+            {{.msg}}
         </div>
     </div>
 

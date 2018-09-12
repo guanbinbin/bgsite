@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"bgsite/models"
-	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 )
@@ -33,36 +32,38 @@ func (c* LoginController) Register () {
 	name, pass := c.GetString("name"), c.GetString("pass")
 	checkUserName := &models.User{Name: name}
 	if o.Read(checkUserName, "name") == nil { 	//Check if Username exists (if err=nil)
-	c.Data["err"] = "Choose another login"
+	c.Data["msg"] = "Choose another login"
 	} else if  name == "" && pass == "" {
-		c.Data["err"] = "Enter correct login and pass"
+		c.Data["msg"] = "Enter correct login and pass"
 	} else if  pass == "" {
-		c.Data["err"] = "Enter correct pass"
+		c.Data["msg"] = "Enter correct pass"
 	} else if  name == "" {
-		c.Data["err"] = "Enter correct login"
+		c.Data["msg"] = "Enter correct login"
 	} else {
 		addUser := models.User{Name: name, Pass: pass}
 		o.Insert(&addUser) 							//add to DB
-		c.Data["err"] = "Добро пожаловать, "
-		c.Data["name"] = name
+		c.Data["msg"] = "Вы зарегистрировались как  " + string(name) + ". Пожалуйста, авторизуйтесь."
 	}
 
 	c.TplName = "register.tpl"
 }
 
 func (c* LoginController) Login () {
-	c.SetSession("auth", "id")
-	c.GetSession("auth")
-
-	//TODO: repeating code!
+	//Use db
 	o := orm.NewOrm()
 	o.Using("default")
 
-	//Read from db
-	user:= &models.User{Name:"12"}
-	err := o.Read(user, "name")
-	fmt.Println(err, user.Id, user.Pass)
+	//Login
+	name, pass := c.GetString("name"), c.GetString("pass")
+	check := &models.User{Name:name,Pass:pass}
+	if o.Read(check,"name","pass") == nil { //Read from POST name, pass, if matching with db, err==nil
+		c.SetSession("auth", check.Id)     //Id to session
+		c.Data["msg"] = "Вы авторизовались как  " + string(name)
+	} else if o.Read(&models.User{Name:name}, "name") == nil && o.Read(&models.User{Pass:pass}, "pass") != nil {
+		c.Data["msg"] = "Неправильный пароль"
+	} else {
+		c.Data["err"] = "Зарегистрируйтесь"
+	}
 
-	//c.SetSecureCookie("namesd", "asd","aaaaaaaaaa")
 	c.TplName = "login.tpl"
 }
