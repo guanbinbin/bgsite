@@ -1,9 +1,7 @@
 package controllers
 
 import (
-	"bgsite/models"
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/orm"
 )
 
 type MainController struct {
@@ -11,26 +9,6 @@ type MainController struct {
 }
 
 func (c *MainController) Index() {
-	//Use db
-	o := orm.NewOrm()
-	o.Using("default")
-	//Check if user is authorized
-	id := c.GetSession("auth")
-	if id == nil {
-		c.Data["is_login"] = false
-		c.Data["msg"] = "Вы не авторизованы"
-	} else {
-		c.Data["is_login"] = true
-		//Read name from db by user id
-		userId := &models.User{Id: id.(int)}
-		o.Read(userId, "id")
-		c.Data["msg"] = "Добро пожаловать, " + string(userId.Name) + "!"
-		}
-	//Logout
-	if c.Ctx.Request.PostForm.Get("quit") != "" {
-		c.DestroySession()
-		c.Redirect("/",302)
-	}
 	c.Layout = "layout.html"
 	c.TplName = "index.html"
 }

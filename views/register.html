@@ -1,6 +1,11 @@
 <title>Login</title>
 <div class="container">
     <div class="row">
-        {{.msg}}
+        {{.msg}} <br/>
+    {{if .login}}
+       <a href="/session">Авторизация</a>
+    {{else}}
+        <a href="/session">Назад</a>
+    {{end}}
     </div>
 </div>

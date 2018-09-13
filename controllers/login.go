@@ -31,7 +31,7 @@ func (c* LoginController) Register () {
 	name, pass := c.GetString("name"), c.GetString("pass")
 	checkUserName := &models.User{Name: name}
 	if o.Read(checkUserName, "name") == nil { 	//Check if Username exists (if err=nil)
-	c.Data["msg"] = "Choose another login"
+		c.Data["msg"] = "Choose another login"
 	} else if  name == "" && pass == "" {
 		c.Data["msg"] = "Enter correct login and pass"
 	} else if  pass == "" {
@@ -42,6 +42,7 @@ func (c* LoginController) Register () {
 		addUser := models.User{Name: name, Pass: pass}
 		o.Insert(&addUser) 							//add to DB
 		c.Data["msg"] = "Вы зарегистрировались как  " + string(name) + ". Пожалуйста, авторизуйтесь."
+		c.Data["login"] = true
 	}
 	c.Layout = "layout.html"
 	c.TplName = "register.html"
@@ -67,4 +68,29 @@ func (c* LoginController) Login () {
 	}
 	c.Layout = "layout.html"
 	c.TplName = "login.html"
+}
+
+func (c *LoginController) User() {
+	//Use db
+	o := orm.NewOrm()
+	o.Using("default")
+	//Check if user is authorized
+	id := c.GetSession("auth")
+	if id == nil {
+		c.Data["is_login"] = false
+		c.Data["msg"] = "Вы не авторизованы"
+	} else {
+		c.Data["is_login"] = true
+		//Read name from db by user id
+		userId := &models.User{Id: id.(int)}
+		o.Read(userId, "id")
+		c.Data["msg"] = "Вы авторизованы как " + string(userId.Name)
+	}
+	//Logout
+	if c.Ctx.Request.PostForm.Get("quit") != "" {
+		c.DestroySession()
+		c.Redirect("/",302)
+	}
+	c.Layout = "layout.html"
+	c.TplName = "user.html"
 }

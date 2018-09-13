@@ -22,10 +22,8 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-
 	//Session
 	beego.BConfig.WebConfig.Session.SessionOn = true
-
 	beego.Run()
 }
 
