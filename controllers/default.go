@@ -14,7 +14,6 @@ func (c *MainController) Index() {
 	//Use db
 	o := orm.NewOrm()
 	o.Using("default")
-
 	//Check if user is authorized
 	id := c.GetSession("auth")
 	if id == nil {
@@ -27,17 +26,17 @@ func (c *MainController) Index() {
 		o.Read(userId, "id")
 		c.Data["msg"] = "Добро пожаловать, " + string(userId.Name) + "!"
 		}
-
 	//Logout
 	if c.Ctx.Request.PostForm.Get("quit") != "" {
 		c.DestroySession()
 		c.Redirect("/",302)
 	}
+	c.Layout = "layout.tpl"
 	c.TplName = "index.tpl"
 }
 
 func (c *MainController) NameOld() {
-
+	c.Layout = "layout.tpl"
 	c.TplName = "nameold.tpl"
 }
 
@@ -50,6 +49,7 @@ func (c *MainController) Answer() {
 		} else {
 			c.Data["reply"] = "Неверно"
 		}
+	c.Layout = "layout.tpl"
 	c.TplName = "answer.tpl"
 }
 
@@ -57,7 +57,6 @@ func (c *MainController) Calc() {
 	firsta, _ := c.GetFloat("firsta")
 	seconda, _ := c.GetFloat("seconda")
 	action := c.GetString("action")
-
 	if action == "+" {
 		c.Data["reply"] = firsta + seconda
 	} else if action == "-" {
@@ -75,12 +74,13 @@ func (c *MainController) Calc() {
 	} else {
 		c.Data["reply"] = "Введите +, -, / или * !"
 	}
-		c.TplName = "calc.tpl"
+	c.Layout = "layout.tpl"
+	c.TplName = "calc.tpl"
 }
 
 func (c *MainController) Hello(){
 	c.Data["name"] = c.GetString("name")
 	c.Data["old"] = c.GetString("old")
-
+	c.Layout = "layout.tpl"
 	c.TplName = "hello.tpl"
 }

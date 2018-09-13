@@ -19,7 +19,7 @@ func (c* LoginController) Session () {
 	if c.Ctx.Request.FormValue("submit") == "register"{
 		c.Redirect("/register",307)
 	}
-
+	c.Layout = "layout.tpl"
 	c.TplName = "session.tpl"
 }
 
@@ -27,7 +27,6 @@ func (c* LoginController) Register () {
 	//Use DB
 	o := orm.NewOrm()
 	o.Using("default")
-
 	//Registration
 	name, pass := c.GetString("name"), c.GetString("pass")
 	checkUserName := &models.User{Name: name}
@@ -44,7 +43,7 @@ func (c* LoginController) Register () {
 		o.Insert(&addUser) 							//add to DB
 		c.Data["msg"] = "Вы зарегистрировались как  " + string(name) + ". Пожалуйста, авторизуйтесь."
 	}
-
+	c.Layout = "layout.tpl"
 	c.TplName = "register.tpl"
 }
 
@@ -52,18 +51,20 @@ func (c* LoginController) Login () {
 	//Use db
 	o := orm.NewOrm()
 	o.Using("default")
-
 	//Login
 	name, pass := c.GetString("name"), c.GetString("pass")
 	check := &models.User{Name:name,Pass:pass}
 	if o.Read(check,"name","pass") == nil { //Read from POST name, pass, if matching with db, err==nil
 		c.SetSession("auth", check.Id)     //Id to session
 		c.Data["msg"] = "Вы авторизовались как  " + string(name)
+		c.Data["is_login"] = true
 	} else if o.Read(&models.User{Name:name}, "name") == nil && o.Read(&models.User{Pass:pass}, "pass") != nil {
 		c.Data["msg"] = "Неправильный пароль"
+		c.Data["is_login"] = false
 	} else {
-		c.Data["err"] = "Зарегистрируйтесь"
+		c.Data["msg"] = "Зарегистрируйтесь"
+		c.Data["is_login"] = false
 	}
-
+	c.Layout = "layout.tpl"
 	c.TplName = "login.tpl"
 }
