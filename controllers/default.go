@@ -31,13 +31,13 @@ func (c *MainController) Index() {
 		c.DestroySession()
 		c.Redirect("/",302)
 	}
-	c.Layout = "layout.tpl"
-	c.TplName = "index.tpl"
+	c.Layout = "layout.html"
+	c.TplName = "index.html"
 }
 
 func (c *MainController) NameOld() {
-	c.Layout = "layout.tpl"
-	c.TplName = "nameold.tpl"
+	c.Layout = "layout.html"
+	c.TplName = "nameold.html"
 }
 
 func (c *MainController) Answer() {
@@ -49,8 +49,8 @@ func (c *MainController) Answer() {
 		} else {
 			c.Data["reply"] = "Неверно"
 		}
-	c.Layout = "layout.tpl"
-	c.TplName = "answer.tpl"
+	c.Layout = "layout.html"
+	c.TplName = "answer.html"
 }
 
 func (c *MainController) Calc() {
@@ -74,13 +74,13 @@ func (c *MainController) Calc() {
 	} else {
 		c.Data["reply"] = "Введите +, -, / или * !"
 	}
-	c.Layout = "layout.tpl"
-	c.TplName = "calc.tpl"
+	c.Layout = "layout.html"
+	c.TplName = "calc.html"
 }
 
 func (c *MainController) Hello(){
 	c.Data["name"] = c.GetString("name")
 	c.Data["old"] = c.GetString("old")
-	c.Layout = "layout.tpl"
-	c.TplName = "hello.tpl"
+	c.Layout = "layout.html"
+	c.TplName = "hello.html"
 }

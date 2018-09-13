@@ -19,8 +19,8 @@ func (c* LoginController) Session () {
 	if c.Ctx.Request.FormValue("submit") == "register"{
 		c.Redirect("/register",307)
 	}
-	c.Layout = "layout.tpl"
-	c.TplName = "session.tpl"
+	c.Layout = "layout.html"
+	c.TplName = "session.html"
 }
 
 func (c* LoginController) Register () {
@@ -43,8 +43,8 @@ func (c* LoginController) Register () {
 		o.Insert(&addUser) 							//add to DB
 		c.Data["msg"] = "Вы зарегистрировались как  " + string(name) + ". Пожалуйста, авторизуйтесь."
 	}
-	c.Layout = "layout.tpl"
-	c.TplName = "register.tpl"
+	c.Layout = "layout.html"
+	c.TplName = "register.html"
 }
 
 func (c* LoginController) Login () {
@@ -65,6 +65,6 @@ func (c* LoginController) Login () {
 		c.Data["msg"] = "Зарегистрируйтесь"
 		c.Data["is_login"] = false
 	}
-	c.Layout = "layout.tpl"
-	c.TplName = "login.tpl"
+	c.Layout = "layout.html"
+	c.TplName = "login.html"
 }
