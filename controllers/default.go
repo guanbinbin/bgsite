@@ -13,6 +13,11 @@ func (c *MainController) Index() {
 	c.TplName = "index.html"
 }
 
+func (c *MainController) Map() {
+	c.Layout = "layout.html"
+	c.TplName = "map.html"
+}
+
 func (c *MainController) NameOld() {
 	c.Layout = "layout.html"
 	c.TplName = "nameold.html"

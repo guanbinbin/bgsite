@@ -10,6 +10,19 @@ type LoginController struct {
 	beego.Controller
 }
 
+func SetIsLogin(c *LoginController) {
+	if c.GetSession("auth") == nil {
+		c.Data["is_login"] = false
+	} else {
+		c.Data["is_login"] = true
+	}
+}
+
+func (c *LoginController) Logout(){
+	c.DestroySession()
+	c.Redirect("/",302)
+}
+
 func (c* LoginController) Session () {
 	//Button "Login"
 	if c.Ctx.Request.FormValue("submit") == "login" {
@@ -59,6 +72,7 @@ func (c* LoginController) Login () {
 		c.SetSession("auth", check.Id)     //Id to session
 		c.Data["msg"] = "Вы авторизовались как  " + string(name)
 		c.Data["is_login"] = true
+		c.Redirect("/user",302)
 	} else if o.Read(&models.User{Name:name}, "name") == nil && o.Read(&models.User{Pass:pass}, "pass") != nil {
 		c.Data["msg"] = "Неправильный пароль"
 		c.Data["is_login"] = false
@@ -71,26 +85,8 @@ func (c* LoginController) Login () {
 }
 
 func (c *LoginController) User() {
-	//Use db
-	o := orm.NewOrm()
-	o.Using("default")
-	//Check if user is authorized
-	id := c.GetSession("auth")
-	if id == nil {
-		c.Data["is_login"] = false
-		c.Data["msg"] = "Вы не авторизованы"
-	} else {
-		c.Data["is_login"] = true
-		//Read name from db by user id
-		userId := &models.User{Id: id.(int)}
-		o.Read(userId, "id")
-		c.Data["msg"] = "Вы авторизованы как " + string(userId.Name)
-	}
-	//Logout
-	if c.Ctx.Request.PostForm.Get("quit") != "" {
-		c.DestroySession()
-		c.Redirect("/",302)
-	}
-	c.Layout = "layout.html"
+	SetIsLogin(c)
+	c.Data["msg"] = models.GetUserName(c.GetSession("auth")) //Read name from db by user id
 	c.TplName = "user.html"
+	c.Layout = "layout.html"
 }

@@ -13,3 +13,16 @@ type User struct {
 func init() {
 	orm.RegisterModel(new(User))
 }
+
+func GetUserName(userId interface{}) string {
+	if userId == nil {
+		return ""
+	} else {
+		o := orm.NewOrm()
+		o.Using("default")
+
+		userId := &User{Id: userId.(int)}
+		o.Read(userId, "id")
+		return userId.Name
+	}
+}
