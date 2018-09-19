@@ -2,29 +2,16 @@ package controllers
 
 import (
 	"bgsite/models"
-	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 )
 
 type LoginController struct {
-	beego.Controller
-}
-
-func SetIsLogin(c *LoginController) {
-	if c.GetSession("auth") == nil {
-		c.Data["is_login"] = false
-	} else {
-		c.Data["is_login"] = true
-	}
-}
-
-func (c *LoginController) Logout(){
-	c.DestroySession()
-	c.Redirect("/",302)
+	BaseController
 }
 
 func (c* LoginController) Session () {
 	//Button "Login"
+	SetIsLogin(&c.BaseController)
 	if c.Ctx.Request.FormValue("submit") == "login" {
 		c.Redirect("/login",307) //307 - using POST
 	}
@@ -37,6 +24,8 @@ func (c* LoginController) Session () {
 }
 
 func (c* LoginController) Register () {
+	//TODO: remove orm to models
+	SetIsLogin(&c.BaseController)
 	//Use DB
 	o := orm.NewOrm()
 	o.Using("default")
@@ -62,6 +51,8 @@ func (c* LoginController) Register () {
 }
 
 func (c* LoginController) Login () {
+	//TODO: remove orm to models
+	SetIsLogin(&c.BaseController)
 	//Use db
 	o := orm.NewOrm()
 	o.Using("default")
@@ -85,7 +76,7 @@ func (c* LoginController) Login () {
 }
 
 func (c *LoginController) User() {
-	SetIsLogin(c)
+	SetIsLogin(&c.BaseController)
 	c.Data["msg"] = models.GetUserName(c.GetSession("auth")) //Read name from db by user id
 	c.TplName = "user.html"
 	c.Layout = "layout.html"

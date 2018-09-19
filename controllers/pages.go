@@ -1,29 +1,29 @@
 package controllers
 
-import (
-	"github.com/astaxie/beego"
-)
-
-type MainController struct {
-	beego.Controller
+type PagesController struct {
+	BaseController
 }
 
-func (c *MainController) Index() {
+func (c *PagesController) Index() {
+	SetIsLogin(&c.BaseController)
 	c.Layout = "layout.html"
 	c.TplName = "index.html"
 }
 
-func (c *MainController) Map() {
+func (c *PagesController) Map() {
+	SetIsLogin(&c.BaseController)
 	c.Layout = "layout.html"
 	c.TplName = "map.html"
 }
 
-func (c *MainController) NameOld() {
+func (c *PagesController) NameOld() {
+	SetIsLogin(&c.BaseController)
 	c.Layout = "layout.html"
 	c.TplName = "nameold.html"
 }
 
-func (c *MainController) Answer() {
+func (c *PagesController) Answer() {
+	SetIsLogin(&c.BaseController)
 	answer, _ := c.GetUint32("answer")
 		if answer == 4 {
 			c.Data["reply"] = "Верно!"
@@ -36,7 +36,8 @@ func (c *MainController) Answer() {
 	c.TplName = "answer.html"
 }
 
-func (c *MainController) Calc() {
+func (c *PagesController) Calc() {
+	SetIsLogin(&c.BaseController)
 	firsta, _ := c.GetFloat("firsta")
 	seconda, _ := c.GetFloat("seconda")
 	action := c.GetString("action")
@@ -61,7 +62,8 @@ func (c *MainController) Calc() {
 	c.TplName = "calc.html"
 }
 
-func (c *MainController) Hello(){
+func (c *PagesController) Hello(){
+	SetIsLogin(&c.BaseController)
 	c.Data["name"] = c.GetString("name")
 	c.Data["old"] = c.GetString("old")
 	c.Layout = "layout.html"
