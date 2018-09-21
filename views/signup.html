@@ -2,10 +2,10 @@
 <div class="container">
     <div class="row">
         {{.msg}} <br/>
-    {{if .login}}
-       <a href="/session">Авторизация</a>
+    {{if .is_login}}
+       <a href="/auth">Авторизация</a>
     {{else}}
-        <a href="/session">Назад</a>
+        <a href="/auth">Назад</a>
     {{end}}
     </div>
 </div>

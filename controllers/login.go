@@ -2,82 +2,57 @@ package controllers
 
 import (
 	"bgsite/models"
-	"github.com/astaxie/beego/orm"
 )
 
 type LoginController struct {
 	BaseController
 }
 
-func (c* LoginController) Session () {
+func (c* LoginController) Auth () {
 	//Button "Login"
 	SetIsLogin(&c.BaseController)
-	if c.Ctx.Request.FormValue("submit") == "login" {
-		c.Redirect("/login",307) //307 - using POST
+	if c.Ctx.Request.FormValue("submit") == "signin" {
+		c.Redirect("/signin",307) //307 - using POST
 	}
 	//Button "Register"
-	if c.Ctx.Request.FormValue("submit") == "register"{
-		c.Redirect("/register",307)
+	if c.Ctx.Request.FormValue("submit") == "signup"{
+		c.Redirect("/signup",307)
 	}
 	c.Layout = "layout.html"
-	c.TplName = "session.html"
+	c.TplName = "auth.html"
 }
 
-func (c* LoginController) Register () {
-	//TODO: remove orm to models
+func (c* LoginController) SignUp () {
 	SetIsLogin(&c.BaseController)
-	//Use DB
-	o := orm.NewOrm()
-	o.Using("default")
-	//Registration
-	name, pass := c.GetString("name"), c.GetString("pass")
-	checkUserName := &models.User{Name: name}
-	if o.Read(checkUserName, "name") == nil { 	//Check if Username exists (if err=nil)
-		c.Data["msg"] = "Choose another login"
-	} else if  name == "" && pass == "" {
-		c.Data["msg"] = "Enter correct login and pass"
-	} else if  pass == "" {
-		c.Data["msg"] = "Enter correct pass"
-	} else if  name == "" {
-		c.Data["msg"] = "Enter correct login"
+	//Check if login exists, return error OR register & return name
+	name, err  := models.CheckRegistration(c.GetString("name"), c.GetString("pass"))
+	if err == "" {
+		c.Data["msg"] = "Вы зарегистрировались как  " + name + ". Пожалуйста, авторизуйтесь."
 	} else {
-		addUser := models.User{Name: name, Pass: pass}
-		o.Insert(&addUser) 							//add to DB
-		c.Data["msg"] = "Вы зарегистрировались как  " + string(name) + ". Пожалуйста, авторизуйтесь."
-		c.Data["login"] = true
+		c.Data["msg"] = err
 	}
 	c.Layout = "layout.html"
-	c.TplName = "register.html"
+	c.TplName = "signup.html"
 }
 
-func (c* LoginController) Login () {
-	//TODO: remove orm to models
+func (c* LoginController) SignIn () {
 	SetIsLogin(&c.BaseController)
-	//Use db
-	o := orm.NewOrm()
-	o.Using("default")
-	//Login
-	name, pass := c.GetString("name"), c.GetString("pass")
-	check := &models.User{Name:name,Pass:pass}
-	if o.Read(check,"name","pass") == nil { //Read from POST name, pass, if matching with db, err==nil
-		c.SetSession("auth", check.Id)     //Id to session
-		c.Data["msg"] = "Вы авторизовались как  " + string(name)
-		c.Data["is_login"] = true
-		c.Redirect("/user",302)
-	} else if o.Read(&models.User{Name:name}, "name") == nil && o.Read(&models.User{Pass:pass}, "pass") != nil {
-		c.Data["msg"] = "Неправильный пароль"
-		c.Data["is_login"] = false
+	//Check name, pass, return id if ok OR return error
+	id, err  := models.CheckLogin(c.GetString("name"), c.GetString("pass"))
+	if err == "" {
+		c.SetSession("auth", id)     //Id to session
+		c.Data["msg"] = "Вы авторизовались как  " + models.GetUserName(c.GetSession("auth"))
+		c.Redirect("/home",302)
 	} else {
-		c.Data["msg"] = "Зарегистрируйтесь"
-		c.Data["is_login"] = false
+		c.Data["msg"] = err
 	}
 	c.Layout = "layout.html"
-	c.TplName = "login.html"
+	c.TplName = "signin.html"
 }
 
-func (c *LoginController) User() {
+func (c *LoginController) Home() {
 	SetIsLogin(&c.BaseController)
 	c.Data["msg"] = models.GetUserName(c.GetSession("auth")) //Read name from db by user id
-	c.TplName = "user.html"
+	c.TplName = "home.html"
 	c.Layout = "layout.html"
 }
