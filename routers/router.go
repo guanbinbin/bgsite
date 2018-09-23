@@ -13,4 +13,6 @@ func init() {
 	beego.Router("/home", &controllers.LoginController{}, "get,post:Home")
 	beego.Router("/map", &controllers.PagesController{}, "get:Map")
 	beego.Router("/logout", &controllers.LoginController{}, "get:Logout")
+	beego.Router("/catalog", &controllers.PagesController{}, "get:Catalog")
+	beego.Router("/category/:id([0-9]+)", &controllers.PagesController{}, "get:Category")
 }

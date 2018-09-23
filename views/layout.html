@@ -4,8 +4,8 @@
     <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
     <!--For Materialize-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link href="static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 
@@ -13,13 +13,13 @@
 
 <!-- Top menu -->
 <header>
-   <div class="navbar">
-    <nav>
+    <div class="navbar-fixed">
+      <nav>
         <div class="nav-wrapper  blue accent-4">
-            <a href="/" class="brand-logo left">  </a>
-            <ul class="right">
+            <a href="" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="right">
                 <li><a href="/">Главная</a></li>
-                <li><a href="/map">Карта сайта</a></li>
+                <li><a href="/catalog">Каталог товаров</a></li>
             {{if .is_login}}
                 <li><a href="/home">Личный кабинет</a></li>
             {{else}}
@@ -28,22 +28,37 @@
             </ul>
         </div>
     </nav>
-   </div> <br/>
+    </div> <br/>
 </header>
 
 <!-- Left navigation -->
-<ul id="slide-out" class="sidenav sidenav-fixed" style="width: 220px">
+<ul id="slide-out" class="sidenav sidenav-fixed" style="width: 200px">
     <div class="blue accent-3" style="height: 64px">
-
     </div>
-    <li><a href="/">Home</a></li>
-</ul>
-<a href="" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    {{$num := .data}}
+   {{range $cat := .category}}
+           {{if eq $cat.Id 3}} <!-- Нужен одинаковый тип для сравнения! -->
+                <li class="active purple lighten-4">
+           {{else}}
+                <li>
+           {{end}}
+             <a href="/category/{{$cat.Id}}" class="waves-effect waves-purple">{{$cat.Name}}</a>
+           </li>
+    {{end}}
+    <li>
+     <a href="/map" class="waves-effect waves-purple">Карта сайта</a>
+    </li>
 
-{{.LayoutContent}}
+</ul>
+
+
+<main>
+    {{.LayoutContent}}
+</main>
+
 
 <!--Scripts-->
-<script src="static/js/materialize.js"></script>
-<script src="static/js/init.js"></script>
+<script src="/static/js/materialize.js"></script>
+<script src="/static/js/init.js"></script>
 </body>
 </html>

@@ -10,8 +10,61 @@ type User struct {
 	Pass string
 }
 
+type Category struct {
+	Id int
+	Name string
+}
+
+type Product struct {
+	Id int
+	Name string
+	Category_id int
+	Code int
+	Price float64
+	Availability int
+	Brand string
+	Image string
+	Description string
+}
+
 func init() {
 	orm.RegisterModel(new(User))
+	orm.RegisterModel(new(Category))
+	orm.RegisterModel(new(Product))
+}
+
+//Get n (num) latest products
+func GetLatestProducts(num int)([]Product,error){
+	o:=orm.NewOrm()
+	var latestProducts []Product
+	_, err := o.Raw("select id, name, price, image from product order by id desc limit ?",num).QueryRows(&latestProducts)
+	if err == nil {
+		return latestProducts, nil
+	} else {
+		return nil, err
+	}
+}
+
+func GetProductsById(id string, num int)([]Product,error){
+	o:=orm.NewOrm()
+	var latestProducts []Product
+	_, err := o.Raw("select id, name, price, image from product where category_id = ? order by id desc limit ?",id, num).QueryRows(&latestProducts)
+	if err == nil {
+		return latestProducts, nil
+	} else {
+		return nil, err
+	}
+}
+
+func GetCategories() ([]Category, error) {
+	o := orm.NewOrm()
+	var categories []Category
+	_, err := o.Raw("SELECT id, name FROM category").QueryRows(&categories)
+	if err == nil {
+		return categories, nil
+	} else {
+		return nil, err
+	}
 }
 
 func GetUserName(userId interface{}) string {

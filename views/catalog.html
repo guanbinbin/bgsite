@@ -1,0 +1,24 @@
+<title>Каталог товаров</title>
+<div class="container">
+<h4 class="center-align"> Последние товары </h4> <br/>
+    <div class="row">
+    {{range .products}}
+        <div class="col s4">
+            <div class="card">
+                <div class="card-image">
+                    <a href="/product/{{.Id}}" class="waves-effect waves-light">
+                    <img src = "{{.Image}}" class="responsive-img">
+                    <a class="btn-floating btn-large halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
+                    </a>
+                </div>
+                <div class="card-content">
+                    <a href = "/product/{{.Id}}">
+                    <span class="card-title">{{.Name}}</span>
+                    </a>
+                    <p class="flow-text right-align"> {{.Price}}$</p>
+                </div>
+            </div>
+        </div>
+    {{end}}
+    </div>
+</div>
