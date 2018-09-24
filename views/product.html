@@ -1,0 +1,42 @@
+<title>Продукт</title>
+<style> main {
+    padding-left: 200px;
+}
+@media only screen and (max-width : 992px) {
+    main, footer {
+        padding-left: 20px;
+    }
+}
+</style>
+
+{{range .product}}
+    <h4 class="center-align"> {{.Name}} </h4> <br/>
+    <div class="row">
+
+        <div class="col s5">
+            <div class="card ">
+                <div class="card-image">
+                    <img class="materialboxed" src="{{.Image}}">
+                    <a class="btn-floating btn-large halfway-fab waves-effect waves-light red hoverable"><i class="material-icons">add_shopping_cart</i></a>
+                </div>
+                <div class="card-content">
+                    <p> Производитель: {{.Brand}} </p>
+                    <p> Код товара: {{.Code}} </p>
+                    <p> Кол-во в наличии: {{.Availability}}  </p>
+                </div>
+                <div class="card-action">
+                    <h5 class="right-align"> {{.Price}} ₽ </h5>
+                </div>
+            </div>
+    </div>
+
+    <div class="col s7">
+        <div class="card ">
+            <div class="card-content">
+                <span class="card-title"> <b>Описание товара </b> </span>
+                <p> {{.Description}} </p>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

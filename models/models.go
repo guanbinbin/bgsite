@@ -18,7 +18,7 @@ type Category struct {
 type Product struct {
 	Id int
 	Name string
-	Category_id int
+	Category_id int //TODO: Correct name to CategoryId
 	Code int
 	Price float64
 	Availability int
@@ -33,11 +33,14 @@ func init() {
 	orm.RegisterModel(new(Product))
 }
 
-//Get n (num) latest products
-func GetLatestProducts(num int)([]Product,error){
+//Get list of n (num) latest products
+func GetLatestProducts(num, page int)([]Product,error){
 	o:=orm.NewOrm()
 	var latestProducts []Product
-	_, err := o.Raw("select id, name, price, image from product order by id desc limit ?",num).QueryRows(&latestProducts)
+	//Offset for pagination
+	if page == 0 { page = 1} //
+	offset := (page - 1) * num
+	_, err := o.Raw("select id, name, price, image from product order by id desc limit ? offset ?",num, offset).QueryRows(&latestProducts)
 	if err == nil {
 		return latestProducts, nil
 	} else {
@@ -45,6 +48,7 @@ func GetLatestProducts(num int)([]Product,error){
 	}
 }
 
+//Get list of num products by id
 func GetProductsById(id string, num int)([]Product,error){
 	o:=orm.NewOrm()
 	var latestProducts []Product
@@ -62,6 +66,18 @@ func GetCategories() ([]Category, error) {
 	_, err := o.Raw("SELECT id, name FROM category").QueryRows(&categories)
 	if err == nil {
 		return categories, nil
+	} else {
+		return nil, err
+	}
+}
+
+//Get single product by id
+func GetProductById(id int)([]Product, error){
+	o := orm.NewOrm()
+	var product []Product
+	_, err := o.Raw("SELECT * FROM product where id = ?", id).QueryRows(&product)
+	if err == nil {
+		return product, nil
 	} else {
 		return nil, err
 	}
