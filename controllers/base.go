@@ -3,10 +3,23 @@ package controllers
 import (
 	"bgsite/models"
 	"github.com/astaxie/beego"
+	"net/url"
+	"strconv"
 )
 
 type BaseController struct {
 	beego.Controller
+}
+
+//Parse URL to get number after ? (paginator makes urls: /catalog?p=2..999)
+func GetPageNum(c *BaseController) int {
+	endOfUrl := c.Ctx.Request.URL.RawQuery //Get p = 1..999
+	if endOfUrl == "" {
+		endOfUrl = "p=1"
+	}                                      //if p is empty (first page)
+	m, _ := url.ParseQuery(endOfUrl)
+	page, _ := strconv.Atoi(m["p"][0]) //get number of page (2..999)
+	return page
 }
 
 //Get categories for left nav, add them to template

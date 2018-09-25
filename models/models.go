@@ -33,12 +33,34 @@ func init() {
 	orm.RegisterModel(new(Product))
 }
 
-//Get list of n (num) latest products
+//Count all products
+func CountAllProducts()(int64, error){
+	o := orm.NewOrm()
+	res, err := o.QueryTable("product").Count()
+	if err == nil {
+		return res, nil
+	} else {
+		return 0, err
+	}
+}
+
+//Count all products in category
+func CountProductsById(id int)(int64, error){
+	o := orm.NewOrm()
+	res, err := o.QueryTable("product").Filter("category_id",id).Count()
+	if err == nil {
+		return res, nil
+	} else {
+		return 0, err
+	}
+}
+
+//Get list of n (num) latest products for page
 func GetLatestProducts(num, page int)([]Product,error){
-	o:=orm.NewOrm()
+	o := orm.NewOrm()
 	var latestProducts []Product
 	//Offset for pagination
-	if page == 0 { page = 1} //
+	if page == 0 { page = 1}
 	offset := (page - 1) * num
 	_, err := o.Raw("select id, name, price, image from product order by id desc limit ? offset ?",num, offset).QueryRows(&latestProducts)
 	if err == nil {
@@ -48,11 +70,14 @@ func GetLatestProducts(num, page int)([]Product,error){
 	}
 }
 
-//Get list of num products by id
-func GetProductsById(id string, num int)([]Product,error){
-	o:=orm.NewOrm()
+//Get list of num products by id for page
+func GetProductsById(id string, num, page int)([]Product,error){
+	o := orm.NewOrm()
 	var latestProducts []Product
-	_, err := o.Raw("select id, name, price, image from product where category_id = ? order by id desc limit ?",id, num).QueryRows(&latestProducts)
+	//Offset for pagination
+	if page == 0 { page = 1}
+	offset := (page - 1) * num
+	_, err := o.Raw("select id, name, price, image from product where category_id = ? order by id desc limit ? offset ?",id, num, offset).QueryRows(&latestProducts)
 	if err == nil {
 		return latestProducts, nil
 	} else {

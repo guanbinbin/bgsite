@@ -1,0 +1,69 @@
+<title>Каталог товаров</title>
+<div class="container">
+<h4 class="center-align"> Последние товары </h4> <br/>
+
+    <!-- TODO: doesn't work-->
+    <div class="row">
+        <form action="" method="GET">
+            <div class="input-field col s3">
+                <select>
+                    <option value="" disabled selected>9</option>
+                    <option value="1">3</option>
+                    <option value="2">6</option>
+                    <option value="2">9</option>
+                    <option value="3">12</option>
+                </select>
+                <label>Отображать товаров</label>
+            </div>
+            <div class="col s-12">
+                <button id="ok" class="btn-small waves-effect waves-light purple lighten-1">Применить</button>
+            </div>
+        </form>
+    </div>
+
+    {{.abc}}
+
+    <div class="row">
+    {{range .products}}
+        <div class="col s4">
+            <div class="card hoverable" style="height: 400px"> <!-- For smooth grid (not working on large)-->
+                <div class="card-image">
+                    <a href="/product/{{.Id}}" class="waves-effect waves-light">
+                    <img src = "{{.Image}}" class="responsive-img">
+                    <a class="btn-floating btn-large halfway-fab waves-effect waves-light red hoverable"><i class="material-icons">add_shopping_cart</i></a>
+                    </a>
+                </div>
+                <div class="card-content">
+                    <a href = "/product/{{.Id}}">
+                    <span class="card-title">Id: {{.Id}}, {{.Name}}</span>
+                    </a>
+                    <p class="flow-text right-align"> {{.Price}}₽</p>
+                </div>
+            </div>
+        </div>
+    {{end}}
+    </div>
+
+<!-- Pagination -->
+    <br/>
+{{if .paginator.HasPages}}
+    <ul class="pagination center">
+    {{if .paginator.HasPrev}}
+        <li><a href="{{.paginator.PageLinkPrev}}"><i class="material-icons">chevron_left</i></a></li>
+    {{else}}
+        <li class="disabled"><a><i class="material-icons">chevron_left</i></a></li>
+    {{end}}
+    {{range $index, $page := .paginator.Pages}}
+        <li {{if $.paginator.IsActive .}} class="active purple lighten-1"{{end}}>
+            <a href="{{$.paginator.PageLink $page}}">{{$page}}</a>
+        </li>
+    {{end}}
+    {{if .paginator.HasNext}}
+        <li><a href="{{.paginator.PageLinkNext}}"><i class="material-icons">chevron_right</i></a></li>
+    {{else}}
+        <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
+    {{end}}
+    </ul>
+{{end}}
+
+</div>

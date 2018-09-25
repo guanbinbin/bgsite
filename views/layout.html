@@ -18,8 +18,7 @@
         <div class="nav-wrapper  blue accent-4">
             <a href="" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="right">
-                <li><a href="/">Главная</a></li>
-                <li><a href="/catalog">Каталог товаров</a></li>
+                <li><a href="/latest">Последние товары</a></li>
             {{if .is_login}}
                 <li><a href="/home">Личный кабинет</a></li>
             {{else}}
@@ -49,7 +48,7 @@
              {{else}} <!-- If user is not in categories -->
               <li>
             {{end}}
-            <a href="/category/{{$cat.Id}}" class="waves-effect waves-purple">{{$cat.Name}}</a>
+            <a href="/catalog/{{$cat.Id}}" class="waves-effect waves-purple">{{$cat.Name}}</a>
             </li>
         {{end}}
 
