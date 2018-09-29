@@ -15,6 +15,35 @@ func (c *PagesController) Index() {
 	c.TplName = "index.html"
 }
 
+func (c *PagesController) AddToCart() {
+	//!! SetIsLogin sets session "cart"
+	val, _ := c.GetInt("sel") // Get the data "sel" from request
+	cart := []int{val}
+	if c.GetSession("cart") == 0 {
+		cart[0] = val
+		c.SetSession("cart", cart)
+	} else {
+		ap := append(cart,val)
+		c.SetSession("cart", ap)
+	}
+
+	//cart := []int{val}
+	c.Data["json"] = val
+	c.ServeJSON()
+}
+
+func (c *PagesController) Filters() {
+	val, _ := c.GetInt("sel") // Get the data "sel" from request
+	c.Data["json"] = val
+	c.ServeJSON()
+}
+
+func (c *PagesController) Test() {
+
+	c.Layout = "layout.html"
+	c.TplName = "test.html"
+}
+
 func (c *PagesController) Latest(){
 	SetIsLogin(&c.BaseController)
 	GetCategoriesForSideNav(&c.BaseController)
@@ -27,7 +56,11 @@ func (c *PagesController) Latest(){
 	products, _ := models.GetLatestProducts(productsToShow, pageNum) //Gets products for current page
 
 	pagination.SetPaginator(c.Ctx, productsToShow, totalProducts) 		//Pagination (set c.Data["paginator"])
+
+	c.Data["abc"] = c.GetSession("cart")//!!!!!!!
+
 	c.Data["products"] = products
+	c.Data["is_latest"] = true //lighting
 	c.Layout = "layout.html"
 	c.TplName = "latest.html"
 }

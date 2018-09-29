@@ -16,4 +16,7 @@ func init() {
 	beego.Router("/latest", &controllers.PagesController{}, "get:Latest")
 	beego.Router("/catalog/:id([0-9]+)", &controllers.PagesController{}, "get:Catalog")
 	beego.Router("/product/:id([0-9]+)", &controllers.PagesController{}, "get:Product")
+	beego.Router("/test", &controllers.PagesController{}, "get:Test")
+	beego.Router("/filters", &controllers.PagesController{}, "post:Filters")
+	beego.Router("/addtocart", &controllers.PagesController{}, "post:AddToCart")
 }

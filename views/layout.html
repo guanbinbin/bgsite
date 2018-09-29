@@ -18,7 +18,8 @@
         <div class="nav-wrapper  blue accent-4">
             <a href="" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="right">
-                <li><a href="/latest">Последние товары</a></li>
+            {{if .is_latest}} <li class="active"> {{else}} <li> {{end}}
+                <a href="/latest">Последние товары</a></li>
             {{if .is_login}}
                 <li><a href="/home">Личный кабинет</a></li>
             {{else}}
@@ -40,10 +41,7 @@
             {{if $catIds}} <!-- If user is in categories, check what category is active -->
                 {{range $catId := $catIds}}
                     {{if eq $cat.Id $catId.Id}} <!-- If category Id = id from GET (current page) -->
-                        <li class="active purple lighten-4">
-                    {{else}}
-                        <li>
-                    {{end}}
+                        <li class="active purple lighten-4"> {{else}} <li> {{end}}
                 {{end}}
              {{else}} <!-- If user is not in categories -->
               <li>

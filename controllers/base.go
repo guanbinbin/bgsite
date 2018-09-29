@@ -34,6 +34,10 @@ func SetIsLogin(c *BaseController) {
 	} else {
 		c.Data["is_login"] = true
 	}
+	//Cart
+	if c.GetSession("cart") == nil {
+		c.SetSession("cart",0)
+	}
 }
 
 func (c *BaseController) Logout(){

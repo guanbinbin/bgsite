@@ -1,0 +1,65 @@
+<div class="container">
+<!-- Filter -->
+<div class="row">
+    <div class="input-field col s3">
+        <select id = "sel">
+            <option value="" disabled selected>9</option>
+            <option value="3">3</option>
+            <option value="6">6</option>
+            <option value="9">9</option>
+            <option value="12">12</option>
+        </select>
+        <label>Отображать товаров</label>
+    </div>
+    <div class="col s6">
+        <button id="ok" class="btn-small waves-effect waves-light purple lighten-1">Применить</button>
+    </div>
+</div>
+ <span id="result"></span>
+
+    <br/> <br/>
+    <a id = "cartbtn" class="btn halfway-fab waves-effect waves-light red hoverable"><i class="material-icons">add_shopping_cart</i></a>
+    <br/> <br/>
+    <span id="cart"></span>
+
+<script src="/static/js/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        (function () {
+            $btn = $("#cartbtn");
+            $btn.on('click', function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/filters",
+                    data: {"sel": 1} // The data passed to / by POST method
+                }).done(function (msg) {
+                    // Render your result
+                    $("#cart").html(msg);
+                });
+            });
+        })();
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        (function () {
+            $sel = $("#sel");
+            $btn1 = $("#ok");
+            $btn1.on('click', function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/filters",
+                    data: {"sel": $sel.val()} // The data passed to / by POST method
+                }).done(function (msg) {
+                    // Render your result
+                    $("#result").html(msg);
+                });
+            });
+        })();
+    });
+</script>
+
+
+<!-- End filter -->
+</div>
