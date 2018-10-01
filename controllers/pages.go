@@ -15,20 +15,36 @@ func (c *PagesController) Index() {
 	c.TplName = "index.html"
 }
 
-func (c *PagesController) AddToCart() {
-	//!! SetIsLogin sets session "cart"
-	val, _ := c.GetInt("sel") // Get the data "sel" from request
-	cart := []int{val}
-	if c.GetSession("cart") == 0 {
-		cart[0] = val
-		c.SetSession("cart", cart)
-	} else {
-		ap := append(cart,val)
-		c.SetSession("cart", ap)
-	}
+func (c *PagesController) Cart() {
+	SetIsLogin(&c.BaseController)
+	GetCategoriesForSideNav(&c.BaseController)
 
-	//cart := []int{val}
-	c.Data["json"] = val
+	//Get product id, call models.GetProductById and render in tpl
+	//cart := c.GetSession("cart").(map[int]int)
+
+	c.Data["is_cart"] = true //Lighting
+	c.Layout = "layout.html"
+	c.TplName = "cart.html"
+}
+
+func (c *PagesController) AddToCart() {
+	val, _ := c.GetInt("sel") // Get the data "sel" from request
+	cart := c.GetSession("cart").(map[int]int) //type assertion interface to map
+	//Check if product id exists. Plus count or add to cart
+	_, ok := cart[val]
+	if ok == true {
+		cart[val]++
+	} else {
+		cart[val] = 1
+	}
+	c.SetSession("cart",cart)
+	//Count items in cart
+	var count int
+	for _, v := range cart {
+		count = count + v
+	}
+	c.SetSession("cartCount", count)
+	c.Data["json"] = count
 	c.ServeJSON()
 }
 
@@ -52,12 +68,9 @@ func (c *PagesController) Latest(){
 
 	//TODO: Get from view
 	productsToShow := 3
-
 	products, _ := models.GetLatestProducts(productsToShow, pageNum) //Gets products for current page
 
-	pagination.SetPaginator(c.Ctx, productsToShow, totalProducts) 		//Pagination (set c.Data["paginator"])
-
-	c.Data["abc"] = c.GetSession("cart")//!!!!!!!
+	pagination.SetPaginator(c.Ctx, productsToShow, totalProducts) 	//Pagination (set c.Data["paginator"])
 
 	c.Data["products"] = products
 	c.Data["is_latest"] = true //lighting

@@ -20,6 +20,8 @@
             <ul id="nav-mobile" class="right">
             {{if .is_latest}} <li class="active"> {{else}} <li> {{end}}
                 <a href="/latest">Последние товары</a></li>
+            {{if .is_cart}} <li class="active"> {{else}} <li> {{end}}
+                   <a href="/cart">Корзина: <span id = "cart">{{.cartCount}}</span> </a> </li>
             {{if .is_login}}
                 <li><a href="/home">Личный кабинет</a></li>
             {{else}}
@@ -61,13 +63,29 @@
 
 </ul>
 
-
 <main>
     {{.LayoutContent}}
 </main>
 
-
 <!--Scripts-->
+<!-- Add to cart button -->
+<script src="/static/js/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        (function () {
+            $(".add").click(function () {
+                var id = $(this).attr("data-id");
+                $.ajax({
+                    type: "POST",
+                    url: "/addtocart",
+                    data: {"sel": id}
+                }).done(function (msg) {
+                    $("#cart").html(msg);
+                });
+            });
+        })();
+    });
+</script>
 <script src="/static/js/materialize.js"></script>
 <script src="/static/js/init.js"></script>
 </body>

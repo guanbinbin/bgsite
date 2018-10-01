@@ -23,7 +23,7 @@ func GetPageNum(c *BaseController) int {
 }
 
 //Get categories for left nav, add them to template
-func GetCategoriesForSideNav(c *BaseController){
+func GetCategoriesForSideNav (c *BaseController){
 	categories, _ := models.GetCategories() //return Id, name from db (slice)
 	c.Data["categories"] = categories
 }
@@ -36,11 +36,17 @@ func SetIsLogin(c *BaseController) {
 	}
 	//Cart
 	if c.GetSession("cart") == nil {
-		c.SetSession("cart",0)
+		cart := make(map[int]int)
+		c.SetSession("cart", cart)
 	}
+	//Number of products in cart
+	if c.GetSession("cartCount") == nil {
+		c.SetSession("cartCount",0)
+	}
+	c.Data["cartCount"] = c.GetSession("cartCount")
 }
 
 func (c *BaseController) Logout(){
-	c.DestroySession()
+	c.DelSession("auth")
 	c.Redirect("/",302)
 }

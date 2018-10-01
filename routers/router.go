@@ -19,4 +19,5 @@ func init() {
 	beego.Router("/test", &controllers.PagesController{}, "get:Test")
 	beego.Router("/filters", &controllers.PagesController{}, "post:Filters")
 	beego.Router("/addtocart", &controllers.PagesController{}, "post:AddToCart")
+	beego.Router("/cart", &controllers.PagesController{}, "get:Cart")
 }

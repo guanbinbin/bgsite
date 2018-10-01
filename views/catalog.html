@@ -2,27 +2,27 @@
 <div class="container">
 
     <div class="row">
-    {{range $key, $product := .products}}
+    {{range .products}}
         <div class="col s4">
             <div class="card hoverable" style="height: 400px"> <!-- For smooth grid (not working on large) -->
                 <div class="card-image">
-                    <a href="/product/{{$product.Id}}" class="waves-effect waves-light">
-                        <img src = "{{$product.Image}}" class="responsive-img">
-                        <a class="btn-floating btn-large halfway-fab waves-effect waves-light red hoverable"><i class="material-icons">add_shopping_cart</i></a>
+                    <a href="/product/{{.Id}}" class="waves-effect waves-light">
+                        <img src = "{{.Image}}" class="responsive-img">
+                        <a data-id = "{{.Id}}" class="add btn-floating btn-large halfway-fab waves-effect waves-light red hoverable"><i class="material-icons">add_shopping_cart</i></a>
                     </a>
                 </div>
                 <div class="card-content">
-                    <a href = "/product/{{$product.Id}}">
-                        <span class="flow-text card-title">Id = {{$product.Id}}, {{$product.Name}}</span>
+                    <a href = "/product/{{.Id}}">
+                        <span class="flow-text card-title">Id = {{.Id}}, {{.Name}}</span>
                     </a>
-                    <p class="flow-text right-align"> {{$product.Price}}₽</p>
+                    <p class="flow-text right-align"> {{.Price}}₽</p>
                 </div>
             </div>
         </div>
     {{end}}
     </div>
 
-    <!-- Pagination -->
+    <!-- Pagination TODO:To layout-->
     <br/>
 {{if .paginator.HasPages}}
     <ul class="pagination center">

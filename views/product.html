@@ -17,7 +17,7 @@
             <div class="card ">
                 <div class="card-image">
                     <img class="materialboxed" src="{{.Image}}">
-                    <a class="btn-floating btn-large halfway-fab waves-effect waves-light red hoverable"><i class="material-icons">add_shopping_cart</i></a>
+                    <a data-id = "{{.Id}}" class="add btn-floating btn-large halfway-fab waves-effect waves-light red hoverable"><i class="material-icons">add_shopping_cart</i></a>
                 </div>
                 <div class="card-content">
                     <p> Производитель: {{.Brand}} </p>
@@ -40,3 +40,4 @@
     </div>
 </div>
 {{end}}
+

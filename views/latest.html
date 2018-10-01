@@ -1,10 +1,6 @@
 <title>Каталог товаров</title>
 <div class="container">
 <h4 class="center-align"> Последние товары </h4> <br/>
-
-<p id="cart"></p> <br/>
-    Cart: {{.abc}}
-
     <div class="row">
     {{range .products}}
         <div class="col s4">
@@ -25,24 +21,8 @@
         </div>
     {{end}}
     </div>
-<script src="/static/js/jquery.min.js"></script>
-<script>
-    $(document).ready(function() {
-        (function () {
-             $(".add").click(function () {
-                 var id = $(this).attr("data-id");
-                $.ajax({
-                    type: "POST",
-                    url: "/addtocart",
-                    data: {"sel": id}
-                }).done(function (msg) {
-                    $("#cart").html(msg);
-                });
-            });
-        })();
-    });
-</script>
-<!-- Pagination -->
+
+<!-- Pagination TODO:To layout-->
     <br/>
 {{if .paginator.HasPages}}
     <ul class="pagination center">
