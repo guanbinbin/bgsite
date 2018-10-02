@@ -26,10 +26,14 @@ func (c *PagesController) Cart() {
 		//Check if cart is empty
 	if len(prod)>0 {
 		//Add quantity to each element
-		idx := 0
-		for _, val := range cart{
-			prod[idx].Quantity = val
-			idx++
+		//idx := 0
+		/*for key, val := range cart{
+			prod[key].Quantity = val
+			//idx++
+		}*/
+		for key := range prod {
+			prod[key].Quantity = cart[prod[key].Id]
+			//el.Quantity = cart[el.Id]
 		}
 		c.Data["cart"] = prod
 	} else {
