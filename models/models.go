@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
+	"strings"
 )
 
 type User struct {
@@ -27,10 +28,36 @@ type Product struct {
 	Description string
 }
 
+type Cart struct {
+	Id int
+	Code int
+	Name string
+	Price float64
+	Quantity int
+}
+
 func init() {
 	orm.RegisterModel(new(User))
 	orm.RegisterModel(new(Category))
 	orm.RegisterModel(new(Product))
+}
+
+func GetProductsForCart(id []string)([]Cart,error){
+	o := orm.NewOrm()
+	var products []Cart
+	var query string
+	if len(id) > 0  {
+		query = "select id, code, name, price from product where id in (?" + strings.Repeat(",?", len(id) - 1) + ")"
+	} else {
+		return products, nil
+	}
+
+	_, err := o.Raw(query, id).QueryRows(&products)
+	if err == nil {
+		return products, nil
+	} else {
+		return nil, err
+	}
 }
 
 //Count all products

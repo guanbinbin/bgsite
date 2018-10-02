@@ -15,12 +15,28 @@ func (c *PagesController) Index() {
 	c.TplName = "index.html"
 }
 
+//TODO: sorted hashmap!
 func (c *PagesController) Cart() {
 	SetIsLogin(&c.BaseController)
 	GetCategoriesForSideNav(&c.BaseController)
 
-	//Get product id, call models.GetProductById and render in tpl
-	//cart := c.GetSession("cart").(map[int]int)
+	cart := c.GetSession("cart").(map[int]int) //Get products from session
+	v := GetIdsForCart(cart) 						//Convert product ids for SQL query
+	prod, _ := models.GetProductsForCart(v)			//Get products by ids
+		//Check if cart is empty
+	if len(prod)>0 {
+		//Add quantity to each element
+		idx := 0
+		for _, val := range cart{
+			prod[idx].Quantity = val
+			idx++
+		}
+		c.Data["cart"] = prod
+	} else {
+		c.Data["noProducts"] = "У Вас нет ни одного товара в корзине!"
+	}
+
+	c.Data["cart1"] = cart
 
 	c.Data["is_cart"] = true //Lighting
 	c.Layout = "layout.html"
@@ -40,6 +56,7 @@ func (c *PagesController) AddToCart() {
 	c.SetSession("cart",cart)
 	//Count items in cart
 	var count int
+
 	for _, v := range cart {
 		count = count + v
 	}

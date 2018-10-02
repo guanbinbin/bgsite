@@ -11,6 +11,21 @@ type BaseController struct {
 	beego.Controller
 }
 
+//Make values of ids for SQL query ([11, 12, 13])
+func GetIdsForCart (cart map[int]int) []string  {
+	v := make([]string, len(cart))
+	idx := 0
+	for id := range cart{
+		if idx == len(cart) - 1 {
+			v[idx] = strconv.Itoa(id)
+		} else {
+			v[idx] = strconv.Itoa(id) + ","
+		}
+		idx++
+	}
+	return v
+}
+
 //Parse URL to get number after ? (paginator makes urls: /catalog?p=2..999)
 func GetPageNum(c *BaseController) int {
 	endOfUrl := c.Ctx.Request.URL.RawQuery //Get p = 1..999

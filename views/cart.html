@@ -1,6 +1,30 @@
 <title>Корзина</title>
 <div class="container">
-
-    {{.cart}}
+{{.cart1}}<br/>
+{{.noProducts}} <br/>
+<table class="highlight">
+    <thead>
+    <tr>
+        <th>Код товара</th>
+        <th>Название</th>
+        <th>Количество, шт.</th>
+        <th>Стоимость, руб.</th>
+    </tr>
+    </thead>
+    <tbody>
+{{range .cart}}
+    <tr>
+        <td>{{.Code}}</td>
+        <td> <a href="/product/{{.Id}}"> {{.Name}} </a></td>
+        <td>{{.Quantity}} </td>
+        <td>{{.Price}}</td>
+    </tr>
+{{end}}
+<tr>
+    <td colspan="3"> <b>Итого</b> </td>
+    <td><b>12314 руб.</b></td>
+</tr>
+    </tbody>
+</table>
 
 </div>
