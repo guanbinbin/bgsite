@@ -11,6 +11,17 @@ type BaseController struct {
 	beego.Controller
 }
 
+//Count items in cart, add them to session and set json
+func CountCartSetJson (c *BaseController) {
+	cart := c.GetSession("cart").(map[int]int)
+	var count int
+	for _, v := range cart {
+		count = count + v
+	}
+	c.SetSession("cartCount", count)
+	c.Data["json"] = count
+}
+
 //Make values of ids for SQL query ([11, 12, 13])
 func GetIdsForCart (cart map[int]int) []string  {
 	v := make([]string, len(cart))

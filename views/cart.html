@@ -1,30 +1,39 @@
 <title>Корзина</title>
 <div class="container">
-{{.cart1}}<br/>
-{{.noProducts}} <br/>
-<table class="highlight">
-    <thead>
+{{if .cart}}
+    <table class="highlight">
+        <thead>
+        <tr>
+            <th>Код</th>
+            <th>Название</th>
+            <th>Стоимость</th>
+            <th>Кол-во</th>
+            <th> </th>
+        </tr>
+        </thead>
+        <tbody>
+    {{range .cart}}
+        <tr>
+            <td>{{.Code}}</td>
+            <td> <a href="/product/{{.Id}}"> {{.Name}} </a></td>
+            <td>{{.Price}} ₽</td>
+            <td>
+                <a mark = "-" data-id = "{{.Id}}" class = "qnt waves-effect waves-teal btn-flat">-</a>
+                    {{.Quantity}}
+                <a mark = "+" data-id = "{{.Id}}" class = "qnt waves-effect waves-teal btn-flat">+</a> </td>
+            <td>
+                <a data-id = "{{.Id}}" class="del btn-small halfway-fab waves-effect waves-light red hoverable"><i class="material-icons">remove_shopping_cart</i></a>
+            </td>
+        </tr>
+    {{end}}
     <tr>
-        <th>Код товара</th>
-        <th>Название</th>
-        <th>Количество, шт.</th>
-        <th>Стоимость, руб.</th>
+        <td colspan="4"> <b>Итого</b> </td>
+        <td><b>{{.sum}} руб.</b></td>
     </tr>
-    </thead>
-    <tbody>
-{{range .cart}}
-    <tr>
-        <td>{{.Code}}</td>
-        <td> <a href="/product/{{.Id}}"> {{.Name}} </a></td>
-        <td>{{.Quantity}} </td>
-        <td>{{.Price}}</td>
-    </tr>
+        </tbody>
+    </table> <br/>
+    <a href="/order" class="waves-effect waves-light btn small purple lighten-2">Оформить заказ</a></li>
+{{else}}
+    У Вас нет ни одного товара в корзине!
 {{end}}
-<tr>
-    <td colspan="3"> <b>Итого</b> </td>
-    <td><b>12314 руб.</b></td>
-</tr>
-    </tbody>
-</table>
-
 </div>

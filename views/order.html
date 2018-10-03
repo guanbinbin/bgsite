@@ -1,0 +1,81 @@
+<title>Заказ</title>
+<div class="container">
+    <form action="/thanks" method="POST">
+    <h4 class="center-align"> Детали заказа</h4> <br/>
+    <div class="row">
+        <div class="col s12">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">Контактные данные</span><br/>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input id="icon_prefix" type="text" class="validate" required>
+                        <label for="icon_prefix">Имя</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">phone</i>
+                        <input id="icon_telephone" type="tel" class="validate" required>
+                        <label for="icon_telephone">Телефон</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">email</i>
+                        <input id="icon_email" type="email" class="validate" required>
+                        <label for="icon_email">e-mail</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+        <div class="row">
+            <div class="col s12">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Способ доставки</span><br/>
+                    <div class="row">
+                        <p class="col s4">
+                            <label>
+                                <input class="with-gap" name="group1" type="radio" checked />
+                                <span class="black-text">Самовывоз</span>
+                            </label>
+                        </p>
+                        <p class="col s4">
+                            <label>
+                                <input class="with-gap" name="group1" type="radio"/>
+                                <span class="black-text">Доставка курьером</span>
+                            </label>
+                        </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Ваш заказ</span>
+
+                    <table>
+                        <tbody>
+                        {{range .cart}}
+                            <tr>
+                                <td>- {{.Name}}</td>
+                                <td>{{.Price}} ₽</td>
+                                <td>{{.Quantity}} шт.</td>
+                            </tr>
+                        {{end}}
+                        <td colspan="4"><b>Итого: {{.sum}} ₽ </b></td>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="col s12">
+            <button name="submit" value="send" class="waves-effect waves-light btn-large purple lighten-2 right" type="submit"> Оформить заказ </button>
+        </div>
+    </div>
+    </form>
+</div>

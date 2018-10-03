@@ -15,7 +15,36 @@ func (c *PagesController) Index() {
 	c.TplName = "index.html"
 }
 
-//TODO: sorted hashmap!
+func (c *PagesController) Order() {
+ //TODO:Repeating code!!!!
+	SetIsLogin(&c.BaseController)
+	GetCategoriesForSideNav(&c.BaseController)
+
+	cart := c.GetSession("cart").(map[int]int) //Get products from session
+	v := GetIdsForCart(cart) 						//Convert product ids for SQL query
+	prod, _ := models.GetProductsForCart(v)			//Get products by ids
+	//Check if cart is empty
+	if len(prod)>0 {
+		//Add quantity to each element, count sum price
+		var sum float64
+		for key := range prod {
+			prod[key].Quantity = cart[prod[key].Id]
+			sum = sum + prod[key].Price * float64(prod[key].Quantity)
+		}
+
+		c.Data["cart"] = prod
+		c.Data["sum"] = sum
+	}
+
+	c.Layout = "layout.html"
+	c.TplName = "order.html"
+}
+
+func (c *PagesController) Thanks() {
+	c.Layout = "layout.html"
+	c.TplName = "thanks.html"
+}
+
 func (c *PagesController) Cart() {
 	SetIsLogin(&c.BaseController)
 	GetCategoriesForSideNav(&c.BaseController)
@@ -25,22 +54,16 @@ func (c *PagesController) Cart() {
 	prod, _ := models.GetProductsForCart(v)			//Get products by ids
 		//Check if cart is empty
 	if len(prod)>0 {
-		//Add quantity to each element
-		//idx := 0
-		/*for key, val := range cart{
-			prod[key].Quantity = val
-			//idx++
-		}*/
+		//Add quantity to each element, count sum price
+		var sum float64
 		for key := range prod {
 			prod[key].Quantity = cart[prod[key].Id]
-			//el.Quantity = cart[el.Id]
+			sum = sum + prod[key].Price * float64(prod[key].Quantity)
 		}
-		c.Data["cart"] = prod
-	} else {
-		c.Data["noProducts"] = "У Вас нет ни одного товара в корзине!"
-	}
 
-	c.Data["cart1"] = cart
+		c.Data["cart"] = prod
+		c.Data["sum"] = sum
+	}
 
 	c.Data["is_cart"] = true //Lighting
 	c.Layout = "layout.html"
@@ -58,20 +81,34 @@ func (c *PagesController) AddToCart() {
 		cart[val] = 1
 	}
 	c.SetSession("cart",cart)
-	//Count items in cart
-	var count int
-
-	for _, v := range cart {
-		count = count + v
-	}
-	c.SetSession("cartCount", count)
-	c.Data["json"] = count
+	CountCartSetJson(&c.BaseController)
 	c.ServeJSON()
 }
 
-func (c *PagesController) Filters() {
-	val, _ := c.GetInt("sel") // Get the data "sel" from request
-	c.Data["json"] = val
+func (c *PagesController) RmFromCart() {
+	prID, _ := c.GetInt("del")
+	cart := c.GetSession("cart").(map[int]int)
+	delete(cart,prID)
+	c.SetSession("cart", cart)
+	CountCartSetJson(&c.BaseController)
+	c.ServeJSON()
+}
+
+func (c* PagesController) ChQuantity() {
+	mark := c.GetString("mark")
+	id, _ := c.GetInt("id")
+	cart := c.GetSession("cart").(map[int]int)
+	if mark == "-"{
+		if cart[id] == 1 {
+			//TODO: rm from cart (redirect to link)
+		} else {
+			cart[id] = cart[id] - 1
+		}
+	} else {
+		cart[id] = cart[id] + 1
+	}
+	c.SetSession("cart",cart)
+	CountCartSetJson(&c.BaseController)
 	c.ServeJSON()
 }
 

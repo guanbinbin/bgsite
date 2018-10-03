@@ -81,11 +81,52 @@
                     data: {"sel": id}
                 }).done(function (msg) {
                     $("#cart").html(msg);
+
                 });
             });
         })();
     });
 </script>
+
+<!-- Remove from cart button -->
+<script>
+    $(document).ready(function() {
+        (function () {
+            $(".del").click(function () {
+                var id = $(this).attr("data-id");
+                $.ajax({
+                    type: "POST",
+                    url: "/rmfromcart",
+                    data: {"del": id}
+                }).done(function (msg) {
+                    $("#cart").html(msg);
+                    location.reload();
+                });
+            });
+        })();
+    });
+</script>
+
+<!-- Change quantity -->
+<script>
+    $(document).ready(function() {
+        (function () {
+            $(".qnt").click(function () {
+                var id = $(this).attr("data-id");
+                var mark = $(this).attr("mark");
+                $.ajax({
+                    type: "POST",
+                    url: "/chquantity",
+                    data: {"mark": mark, "id": id}
+                }).done(function (msg) {
+                    $("#cart").html(msg);
+                    location.reload();
+                });
+            });
+        })();
+    });
+</script>
+
 <script src="/static/js/materialize.js"></script>
 <script src="/static/js/init.js"></script>
 </body>
