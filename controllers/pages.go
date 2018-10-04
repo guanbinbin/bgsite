@@ -15,6 +15,27 @@ func (c *PagesController) Index() {
 	c.TplName = "index.html"
 }
 
+func (c *PagesController) Thanks() {
+	SetIsLogin(&c.BaseController)
+	GetCategoriesForSideNav(&c.BaseController)
+	//Создать в БД таблицу с заказами (со ссылками на товары из др. таблицы),
+	//присвоить id заказа, записать заказ, послать письмо админу и клиенту о заказе
+
+	//Required
+	c.GetString("name")
+	c.GetString("tel")
+	c.GetString("email")
+	//If courier
+	c.GetString("street")
+	c.GetString("house")
+	c.GetString("padik")
+	c.GetString("flat")
+	c.GetString("comments")
+
+	c.Layout = "layout.html"
+	c.TplName = "thanks.html"
+}
+
 func (c *PagesController) Order() {
  //TODO:Repeating code!!!!
 	SetIsLogin(&c.BaseController)
@@ -38,11 +59,6 @@ func (c *PagesController) Order() {
 
 	c.Layout = "layout.html"
 	c.TplName = "order.html"
-}
-
-func (c *PagesController) Thanks() {
-	c.Layout = "layout.html"
-	c.TplName = "thanks.html"
 }
 
 func (c *PagesController) Cart() {

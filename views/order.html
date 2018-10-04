@@ -10,18 +10,18 @@
                 <div class="row">
                     <div class="input-field col s6">
                         <i class="material-icons prefix">account_circle</i>
-                        <input id="icon_prefix" type="text" class="validate" required>
-                        <label for="icon_prefix">Имя</label>
+                        <input id="name" name="name" type="text" class="validate" required>
+                        <label for="name">Имя</label>
                     </div>
                     <div class="input-field col s6">
                         <i class="material-icons prefix">phone</i>
-                        <input id="icon_telephone" type="tel" class="validate" required>
-                        <label for="icon_telephone">Телефон</label>
+                        <input id="tel" name="tel" type="tel" class="validate" required>
+                        <label for="tel">Телефон</label>
                     </div>
                     <div class="input-field col s6">
                         <i class="material-icons prefix">email</i>
-                        <input id="icon_email" type="email" class="validate" required>
-                        <label for="icon_email">e-mail</label>
+                        <input id="email" name="email" type="email" class="validate" required>
+                        <label for="email">e-mail</label>
                     </div>
                 </div>
             </div>
@@ -37,13 +37,13 @@
                         <p class="col s4">
                             <label>
                                 <input class="with-gap" name="group1" type="radio" checked />
-                                <span class="black-text">Самовывоз</span>
+                                <span class="cour black-text">Самовывоз</span>
                             </label>
                         </p>
                         <p class="col s4">
                             <label>
                                 <input class="with-gap" name="group1" type="radio"/>
-                                <span class="black-text">Доставка курьером</span>
+                                <span class="cour black-text">Доставка курьером</span>
                             </label>
                         </p>
                         </div>
@@ -51,6 +51,39 @@
                 </div>
             </div>
         </div>
+
+        <div class="address row" style="display:none;" >
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Адрес доставки</span><br/>
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <input id="street" name="street" type="text">
+                                <label for="street">Улица</label>
+                            </div>
+                            <div class="input-field col s2">
+                                <input id="house" name="house" type="text">
+                                <label for="house">Дом</label>
+                            </div>
+                            <div class="input-field col s2">
+                                <input id="padik" name="padik" type="text">
+                                <label for="padik">Подьезд</label>
+                            </div>
+                            <div class="input-field col s2">
+                                <input id="flat" name="flat" type="text">
+                                <label for="flat">Квартира</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <textarea id="comments" name="comments" placeholder="Например: домофон не работает, звоните. Первый подъезд от въезда" class="materialize-textarea"></textarea>
+                                <label for="comments">Комментарий</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <div class="row">
         <div class="col s12">
             <div class="card">
@@ -74,7 +107,7 @@
             </div>
         </div>
         <div class="col s12">
-            <button name="submit" value="send" class="waves-effect waves-light btn-large purple lighten-2 right" type="submit"> Оформить заказ </button>
+            <button class="waves-effect waves-light btn-large purple lighten-2 right" type="submit"> Оформить заказ </button>
         </div>
     </div>
     </form>
