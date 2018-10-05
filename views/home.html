@@ -1,7 +1,36 @@
-<title>Index</title>
+<title>Личный кабинет</title>
 <div class="container" >
     {{if .is_login}}
         Вы авторизованы как {{.msg}} <br/><br/>
+   <h6>История заказов</h6>
+
+        <table class="highlight">
+            <thead>
+            <tr>
+                <th>Номер заказа</th>
+                <th>Дата</th>
+                <th>Сумма</th>
+                <th>Статус</th>
+                <th> </th>
+            </tr>
+            </thead>
+
+            <tbody>
+                {{range .orders}}
+                    <tr>
+                        <td>{{.Id}}</td>
+                        <td>{{.Date}}</td>
+                        <td>{{.Payment}} ₽</td>
+                        <td>{{.Status}}</td>
+                        <td>
+                            <a href="/orderinfo/{{.Id}}" class="btn-small waves-effect waves-light blue hoverable">Подробней</a>
+                        </td>
+                    </tr>
+                {{end}}
+            </tbody>
+        </table>
+
+        <br/><br/>
         <form action = "/logout">
             <button class="btn waves-effect waves-light blue accent-4" type="submit">Выйти
                 <i class="material-icons left">power_settings_new</i>

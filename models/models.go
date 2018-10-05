@@ -2,7 +2,9 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
+	"strconv"
 	"strings"
+	"time"
 )
 
 type User struct {
@@ -36,23 +38,94 @@ type Cart struct {
 	Quantity int
 }
 
+type Orders struct {
+	Id int
+	UserName string
+	UserPhone string
+	UserEmail string
+	UserComment string
+	UserId int
+	Date string
+	Products string
+	Payment float64
+	Address string
+	Status int
+}
+
 func init() {
 	orm.RegisterModel(new(User))
 	orm.RegisterModel(new(Category))
 	orm.RegisterModel(new(Product))
+	orm.RegisterModel(new(Orders))
 }
 
-func GetProductsForCart(id []string)([]Cart,error){
+//Make values of ids for SQL query ([11, 12, 13])
+func GetIdsForCart (cart map[int]int) []string  {
+	v := make([]string, len(cart))
+	idx := 0
+	for id := range cart{
+		if idx == len(cart) - 1 {
+			v[idx] = strconv.Itoa(id)
+		} else {
+			v[idx] = strconv.Itoa(id) + ","
+		}
+		idx++
+	}
+	return v
+}
+
+func GetProductsFromOrder(id int)([]string, error){
+	o := orm.NewOrm()
+	var products []string
+	_, err := o.Raw("SELECT products FROM orders where id = ?", id).QueryRows(&products)
+	if err == nil {
+		return products, nil
+	} else {
+		return nil, err
+	}
+}
+
+func GetOneOrder(userId, orderId int)([]Orders, error){
+	o := orm.NewOrm()
+	var order []Orders
+	_, err := o.Raw("SELECT * FROM orders where user_id = ? and id = ?", userId, orderId).QueryRows(&order)
+	if err == nil {
+		return order, nil
+	} else {
+		return nil, err
+	}
+}
+
+func GetOrdersForUser(id int)([]Orders, error){
+	o := orm.NewOrm()
+	var order []Orders
+	_, err := o.Raw("SELECT * FROM orders where user_id = ?", id).QueryRows(&order)
+	if err == nil {
+		return order, nil
+	} else {
+		return nil, err
+	}
+}
+
+func RegisterOrder(name, phone, email, products, address, comment string, userId int, payment float64){
+	o := orm.NewOrm()
+	dateNow := time.Now().Format("02-01-2006 15:04")
+	order := Orders{UserName:name, UserPhone:phone, UserEmail:email, UserComment:comment, UserId: userId, Date: dateNow, Products:products, Payment:payment, Address:address, Status:1}
+	o.Insert(&order)
+}
+
+func GetProductsForCart(cartFromSession map[int]int)([]Cart,error){
+	productIds := GetIdsForCart(cartFromSession) //Convert product ids for SQL query
 	o := orm.NewOrm()
 	var products []Cart
 	var query string
-	if len(id) > 0  {
-		query = "select id, code, name, price from product where id in (?" + strings.Repeat(",?", len(id) - 1) + ")"
+	if len(productIds) > 0  {
+		query = "select id, code, name, price from product where id in (?" + strings.Repeat(",?", len(productIds) - 1) + ")"
 	} else {
 		return products, nil
 	}
 
-	_, err := o.Raw(query, id).QueryRows(&products)
+	_, err := o.Raw(query, productIds).QueryRows(&products)
 	if err == nil {
 		return products, nil
 	} else {

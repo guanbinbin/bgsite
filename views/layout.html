@@ -23,7 +23,8 @@
             {{if .is_cart}} <li class="active"> {{else}} <li> {{end}}
                    <a href="/cart">Корзина: <span id = "cart">{{.cartCount}}</span> </a> </li>
             {{if .is_login}}
-                <li><a href="/home">Личный кабинет</a></li>
+            {{if .is_inlogin}} <li class="active"> {{else}} <li> {{end}}
+                <a href="/home">Личный кабинет</a></li>
             {{else}}
                 <li><a href="/auth" class="waves-effect waves-light btn small purple lighten-2">Войти<i class="material-icons right">assignment_ind</i></a></li>
             {{end}}
@@ -88,7 +89,7 @@
     });
 </script>
 
-<!-- Remove from cart button -->
+<!-- Remove from cart button TODO: Delete this and use URLs to controller Delete: clean session, redirect to cart -->
 <script>
     $(document).ready(function() {
         (function () {

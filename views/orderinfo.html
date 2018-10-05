@@ -1,0 +1,35 @@
+<title>Заказ № {{.orderNo}}</title>
+<div class="container">
+    {{range .ordinfo}}
+        Заказ № <b>{{.Id}}</b> <br/>
+        Дата оформления: <b>{{.Date}}</b> <br/>
+        Статус:  <b>{{.Status}}</b>
+    {{end}}
+        <br/><br/>
+    <table class="highlight">
+        <thead>
+        <tr>
+            <th>Код</th>
+            <th>Название</th>
+            <th>Стоимость</th>
+            <th>Кол-во</th>
+            <th> </th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range .cart}}
+        <tr>
+            <td>{{.Code}}</td>
+            <td> <a href="/product/{{.Id}}"> {{.Name}} </a></td>
+            <td>{{.Price}} ₽</td>
+            <td>{{.Quantity}}</td>
+        </tr>
+        {{end}}
+        <tr>
+            <td colspan="3"> <b>Итого</b> </td>
+            <td><b>{{.sum}} руб.</b></td>
+        </tr>
+        </tbody>
+    </table> <br/>
+        <a href="/home" class="waves-effect waves-light blue hoverable btn"><i class="material-icons left">arrow_back</i>Назад</a>
+</div>

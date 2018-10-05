@@ -11,6 +11,16 @@ type BaseController struct {
 	beego.Controller
 }
 
+//Add quantity to each element, count sum price
+func CountSum (prod []models.Cart, cart map[int]int) float64{
+	var sum float64
+	for key := range prod {
+		prod[key].Quantity = cart[prod[key].Id]
+		sum = sum + prod[key].Price * float64(prod[key].Quantity)
+	}
+	return sum
+}
+
 //Count items in cart, add them to session and set json
 func CountCartSetJson (c *BaseController) {
 	cart := c.GetSession("cart").(map[int]int)
@@ -20,21 +30,6 @@ func CountCartSetJson (c *BaseController) {
 	}
 	c.SetSession("cartCount", count)
 	c.Data["json"] = count
-}
-
-//Make values of ids for SQL query ([11, 12, 13])
-func GetIdsForCart (cart map[int]int) []string  {
-	v := make([]string, len(cart))
-	idx := 0
-	for id := range cart{
-		if idx == len(cart) - 1 {
-			v[idx] = strconv.Itoa(id)
-		} else {
-			v[idx] = strconv.Itoa(id) + ","
-		}
-		idx++
-	}
-	return v
 }
 
 //Parse URL to get number after ? (paginator makes urls: /catalog?p=2..999)

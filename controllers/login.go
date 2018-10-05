@@ -52,7 +52,12 @@ func (c* LoginController) SignIn () {
 
 func (c *LoginController) Home() {
 	SetIsLogin(&c.BaseController)
+
+	orders, _ := models.GetOrdersForUser(c.GetSession("auth").(int))
+
+	c.Data["orders"] = orders
 	c.Data["msg"] = models.GetUserName(c.GetSession("auth")) //Read name from db by user id
+	c.Data["is_inlogin"] = true
 	c.TplName = "home.html"
 	c.Layout = "layout.html"
 }
