@@ -25,4 +25,7 @@ func init() {
 	beego.Router("/makeorder", &controllers.CartController{}, "post:MakeOrder")
 	beego.Router("/home", &controllers.UserController{}, "get,post:Home")
 	beego.Router("/orderinfo/:id:int", &controllers.UserController{}, "get,post:OrderInfo")
+	beego.Router("/admin/home", &controllers.AdminController{}, "get:AdmIndex")
+	beego.Router("/admin/login", &controllers.AdminController{}, "get:Login")
+	beego.Router("/admin/check", &controllers.AdminController{}, "post:CheckLogin")
 }

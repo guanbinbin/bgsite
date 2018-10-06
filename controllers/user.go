@@ -12,6 +12,7 @@ type UserController struct {
 
 func (c *UserController) Home() {
 	SetHeader(&c.BaseController)
+	SetSidenav(&c.BaseController)
 
 	orders, _ := models.GetOrdersForUser(c.GetSession("auth").(int))
 
