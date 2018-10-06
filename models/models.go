@@ -59,6 +59,16 @@ func init() {
 	orm.RegisterModel(new(Orders))
 }
 
+//Add quantity to each element, count sum price
+func CountSum (prod []Cart, cart map[int]int) float64{
+	var sum float64
+	for key := range prod {
+		prod[key].Quantity = cart[prod[key].Id]
+		sum = sum + prod[key].Price * float64(prod[key].Quantity)
+	}
+	return sum
+}
+
 //Make values of ids for SQL query ([11, 12, 13])
 func GetIdsForCart (cart map[int]int) []string  {
 	v := make([]string, len(cart))
@@ -114,7 +124,8 @@ func RegisterOrder(name, phone, email, products, address, comment string, userId
 	o.Insert(&order)
 }
 
-func GetProductsForCart(cartFromSession map[int]int)([]Cart,error){
+//Gets products from db, adds []Prod.Quantity from session, counts sum
+func GetProductsAndSum (cartFromSession map[int]int)(prod []Cart, sum float64, err error){
 	productIds := GetIdsForCart(cartFromSession) //Convert product ids for SQL query
 	o := orm.NewOrm()
 	var products []Cart
@@ -122,14 +133,14 @@ func GetProductsForCart(cartFromSession map[int]int)([]Cart,error){
 	if len(productIds) > 0  {
 		query = "select id, code, name, price from product where id in (?" + strings.Repeat(",?", len(productIds) - 1) + ")"
 	} else {
-		return products, nil
+		return products, 0, nil
 	}
 
-	_, err := o.Raw(query, productIds).QueryRows(&products)
+	_, err = o.Raw(query, productIds).QueryRows(&products)
 	if err == nil {
-		return products, nil
+		return products, CountSum(products, cartFromSession), nil
 	} else {
-		return nil, err
+		return nil, 0, err
 	}
 }
 

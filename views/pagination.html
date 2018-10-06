@@ -1,0 +1,20 @@
+<br/>
+{{if .paginator.HasPages}}
+<ul class="pagination center">
+{{if .paginator.HasPrev}}
+    <li><a href="{{.paginator.PageLinkPrev}}"><i class="material-icons">chevron_left</i></a></li>
+{{else}}
+    <li class="disabled"><a><i class="material-icons">chevron_left</i></a></li>
+{{end}}
+{{range $index, $page := .paginator.Pages}}
+    <li {{if $.paginator.IsActive .}} class="active purple lighten-1"{{end}}>
+        <a href="{{$.paginator.PageLink $page}}">{{$page}}</a>
+    </li>
+{{end}}
+{{if .paginator.HasNext}}
+    <li><a href="{{.paginator.PageLinkNext}}"><i class="material-icons">chevron_right</i></a></li>
+{{else}}
+    <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
+{{end}}
+</ul>
+{{end}}

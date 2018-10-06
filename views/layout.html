@@ -2,7 +2,6 @@
 <html>
 <head>
     <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
-    <!--For Materialize-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -66,78 +65,13 @@
 
 <main>
     {{.LayoutContent}}
+    {{.Pagination}}
 </main>
 
 <!--Scripts-->
-<!-- Add to cart button -->
-<script src="/static/js/jquery.min.js"></script>
-<script>
-    $(document).ready(function() {
-        (function () {
-            $(".add").click(function () {
-                var id = $(this).attr("data-id");
-                $.ajax({
-                    type: "POST",
-                    url: "/addtocart",
-                    data: {"sel": id}
-                }).done(function (msg) {
-                    $("#cart").html(msg);
-
-                });
-            });
-        })();
-    });
-</script>
-
-<!-- Remove from cart button TODO: Delete this and use URLs to controller Delete: clean session, redirect to cart -->
-<script>
-    $(document).ready(function() {
-        (function () {
-            $(".del").click(function () {
-                var id = $(this).attr("data-id");
-                $.ajax({
-                    type: "POST",
-                    url: "/rmfromcart",
-                    data: {"del": id}
-                }).done(function (msg) {
-                    $("#cart").html(msg);
-                    location.reload();
-                });
-            });
-        })();
-    });
-</script>
-
-<!-- Change quantity -->
-<script>
-    $(document).ready(function() {
-        (function () {
-            $(".qnt").click(function () {
-                var id = $(this).attr("data-id");
-                var mark = $(this).attr("mark");
-                $.ajax({
-                    type: "POST",
-                    url: "/chquantity",
-                    data: {"mark": mark, "id": id}
-                }).done(function (msg) {
-                    $("#cart").html(msg);
-                    location.reload();
-                });
-            });
-        })();
-    });
-</script>
-
-<!-- Show delivery address in order -->
-<script>
-    $(document).ready(function() {
-        $(".cour").click(function () {
-            $(".address").slideToggle(250);
-        });
-    });
-</script>
-
 <script src="/static/js/materialize.js"></script>
 <script src="/static/js/init.js"></script>
+{{.AddCart}}
+{{.Order}}
 </body>
 </html>

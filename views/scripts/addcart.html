@@ -1,0 +1,19 @@
+<!-- Add to cart button -->
+<script src="/static/js/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        (function () {
+            $(".add").click(function () {
+                var id = $(this).attr("data-id");
+                $.ajax({
+                    type: "POST",
+                    url: "/addtocart",
+                    data: {"add": id}
+                }).done(function (msg) {
+                    $("#cart").html(msg);
+
+                });
+            });
+        })();
+    });
+</script>

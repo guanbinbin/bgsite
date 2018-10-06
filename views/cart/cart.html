@@ -18,11 +18,11 @@
             <td> <a href="/product/{{.Id}}"> {{.Name}} </a></td>
             <td>{{.Price}} ₽</td>
             <td>
-                <a mark = "-" data-id = "{{.Id}}" class = "qnt waves-effect waves-teal btn-flat">-</a>
+                <a href="/qnt/0/{{.Id}}" class = "waves-effect waves-teal btn-flat">-</a>
                     {{.Quantity}}
-                <a mark = "+" data-id = "{{.Id}}" class = "qnt waves-effect waves-teal btn-flat">+</a> </td>
+                <a href="/qnt/1/{{.Id}}" class = "waves-effect waves-teal btn-flat">+</a> </td>
             <td>
-                <a data-id = "{{.Id}}" class="del btn-small halfway-fab waves-effect waves-light red hoverable"><i class="material-icons">remove_shopping_cart</i></a>
+                <a href="/rm/{{.Id}}" class="btn-small halfway-fab waves-effect waves-light red hoverable"><i class="material-icons">remove_shopping_cart</i></a>
             </td>
         </tr>
     {{end}}
