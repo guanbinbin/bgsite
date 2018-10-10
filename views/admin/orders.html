@@ -1,0 +1,37 @@
+<title>Управление заказами</title>
+<div class="container">
+    Управление заказами <br/>
+    <table class="highlight">
+        <thead>
+        <tr>
+            <th>Номер заказа</th>
+            <th>Имя</th>
+            <th>Телефон</th>
+            <th>Дата</th>
+            <th>Сумма</th>
+            <th>Статус</th>
+            <th> </th>
+            <th> </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {{range .orders}}
+        <tr>
+            <td>{{.Id}}</td>
+            <td>{{.UserName}}</td>
+            <td>{{.UserPhone}}</td>
+            <td>{{.Date}}</td>
+            <td>{{.Payment}} ₽</td>
+            <td>{{.Status}}</td>
+            <td>
+                <a href="/admin/orderinfo/{{.Id}}" class="btn-small waves-effect waves-light blue hoverable"><i class="material-icons">info_outline</i></a>
+            </td>
+            <td>
+                <a href="/admin/orderinfo/{{.Id}}" class="btn-small waves-effect waves-light blue hoverable"><i class="material-icons">edit</i></a>
+            </td>
+        </tr>
+        {{end}}
+        </tbody>
+    </table>
+</div>

@@ -13,6 +13,23 @@ type BaseController struct {
 
 //TODO: analyze what globals you need for each page, add them to func SetGlobals/SetGlobalsCart/SetGlobalsProducts
 
+func SetAdmHeader(c *BaseController) {
+	if c.GetSession("auth") == nil {
+		c.Data["is_login"] = false
+	} else {
+		c.Data["is_login"] = true
+	}
+}
+
+func CheckIfAdmin (c *BaseController)  {
+	if c.GetSession("auth") == nil {
+		c.Redirect("/admin/login",302)
+	}
+	if models.CheckIfAdmin(c.GetSession("auth").(int)) == false {
+		c.Redirect("/admin/login",302)
+	}
+}
+
 //Count items in cart, add them to sessions
 func CountCartSetSessions (c *BaseController) int {
 	cart := c.GetSession("cart").(map[int]int)

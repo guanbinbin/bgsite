@@ -46,8 +46,12 @@ func (c* LoginController) SignIn () {
 	id, err  := models.CheckLogin(c.GetString("name"), c.GetString("pass"))
 	if err == "" {
 		c.SetSession("auth", id)     //Id to session
-		c.Data["msg"] = "Вы авторизовались как  " + models.GetUserName(c.GetSession("auth"))
-		c.Redirect("/home",302)
+		if models.CheckIfAdmin(id) == true {
+			c.Redirect("/admin",302)
+		} else {
+			c.Redirect("/home",302)
+		}
+
 	} else {
 		c.Data["msg"] = err
 	}

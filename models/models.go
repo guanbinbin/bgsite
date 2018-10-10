@@ -11,6 +11,7 @@ type User struct {
 	Id int
 	Name string
 	Pass string
+	IsAdmin bool
 }
 
 type Category struct {
@@ -57,6 +58,26 @@ func init() {
 	orm.RegisterModel(new(Category))
 	orm.RegisterModel(new(Product))
 	orm.RegisterModel(new(Orders))
+}
+
+func CheckIfAdmin (id int) bool {
+	o := orm.NewOrm()
+	if o.Read(&User{Id: id, IsAdmin:true}, "id", "is_admin") == nil {
+		return true
+	} else {
+		return false
+	}
+}
+
+func GetAllOrders()([]Orders, error){
+	o := orm.NewOrm()
+	var order []Orders
+	_, err := o.Raw("SELECT * FROM orders order by id desc").QueryRows(&order)
+	if err == nil {
+		return order, nil
+	} else {
+		return nil, err
+	}
 }
 
 //Add quantity to each element, count sum price
